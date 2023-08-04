@@ -37,6 +37,13 @@ namespace EnrichmentAPI.Implementation
             return personId;
         }
 
+        public bool PersonExists(int personId)
+        {
+            return _context.Persons.Any(x => x.Id == personId);
+
+
+        }
+
         public void UpdatePerson(Person person)
         {
             _context.Add(person);

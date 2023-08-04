@@ -33,50 +33,50 @@ namespace EnrichmentAPI.Controllers
             return Ok(owners);
         }
 
-        [HttpGet("{ownerId}")]
+        [HttpGet("{personId}")]
         [ProducesResponseType(200, Type = typeof(Person))]
         [ProducesResponseType(400)]
         public IActionResult GetOwner(int personId)
         {
-            var owner = _mapper.Map<PersonDTO>(
+            var person = _mapper.Map<PersonDTO>(
                 _personRepository.GetById(personId));
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(owner);
+            return Ok(person);
         }
 
 
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] PersonDTO ownerCreate)
+        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] PersonDTO personCreate)
         {
-            if (ownerCreate == null)
+            if (personCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var ownerMap = _mapper.Map<Person>(ownerCreate);
-            ownerMap.Country = _countryRepository.GetById(countryId);
-            _personRepository.AddPerson(ownerMap);
+            var personMap= _mapper.Map<Person>(personCreate);
+            personMap.Country = _countryRepository.GetById(countryId);
+            _personRepository.AddPerson(personMap);
 
             return Ok("Successfully created owner");
         }
 
         //[HttpPut("{ownerId}")]
-        [HttpPut]
+        [HttpPut("{personId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdatePerson([FromQuery] int ownerId, [FromBody] PersonDTO personDTO)
+        public IActionResult UpdatePerson([FromQuery] int personId, [FromBody] PersonDTO personDTO)
         {
             if (personDTO == null)
             {
                 return BadRequest(ModelState);
             }
-            if (ownerId != personDTO.Id)
+            if (personId != personDTO.Id)
             {
                 return BadRequest(ModelState);
             }
@@ -95,16 +95,16 @@ namespace EnrichmentAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{ownerId}")]
+        [HttpDelete("{personId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteOwner(int ownerId)
+        public IActionResult DeleteOwner(int personId)
         {
             //if (!_ownerRepository.OwnerExists(ownerId))
             //    return NoContent();
 
-            var personToDelete = _personRepository.GetById(ownerId);
+            var personToDelete = _personRepository.GetById(personId);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

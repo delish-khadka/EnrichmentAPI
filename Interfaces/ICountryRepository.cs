@@ -11,5 +11,7 @@ namespace EnrichmentAPI.Interfaces
         void DeleteCountry(Country country);
         Country GetCountryByPerson(int ownerId);
         ICollection<Person> GetPersonsFromACountry(int countryId);
+
+        bool CountryExists(int countryId);
     }
 }

@@ -17,6 +17,11 @@ namespace EnrichmentAPI.Implementation
             _context.SaveChanges();
         }
 
+        public bool CountryExists(int countryId)
+        {
+            return _context.Countries.Any(x => x.Id == countryId);
+        }
+
         public void DeleteCountry(Country country)
         {
             _context.Remove(country);
